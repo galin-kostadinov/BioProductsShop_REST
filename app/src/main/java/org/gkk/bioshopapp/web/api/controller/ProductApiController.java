@@ -1,8 +1,8 @@
 package org.gkk.bioshopapp.web.api.controller;
 
-import org.gkk.bioshopapp.service.model.product.ProductDiscountTableServiceModel;
 import org.gkk.bioshopapp.service.service.ProductService;
-import org.gkk.bioshopapp.web.api.model.ProductTableResponceModel;
+import org.gkk.bioshopapp.web.api.model.product.ProductDiscountTableResponseModel;
+import org.gkk.bioshopapp.web.api.model.product.ProductTableResponceModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class ProductApiController {
 
     @GetMapping(value = "/products")
     public ResponseEntity<List<ProductTableResponceModel>> getAllProducts() {
-        List<ProductTableResponceModel> products= this.productService.getProductTable()
+        List<ProductTableResponceModel> products = this.productService.getProductTable()
                 .stream()
                 .map(p -> this.modelMapper.map(p, ProductTableResponceModel.class))
                 .collect(Collectors.toList());
@@ -40,7 +40,7 @@ public class ProductApiController {
 
     @GetMapping(value = "/product-table")
     public ResponseEntity<List<ProductTableResponceModel>> getProductTable() {
-        List<ProductTableResponceModel> products= this.productService.getProductTable()
+        List<ProductTableResponceModel> products = this.productService.getProductTable()
                 .stream()
                 .map(p -> this.modelMapper.map(p, ProductTableResponceModel.class))
                 .collect(Collectors.toList());
@@ -49,8 +49,12 @@ public class ProductApiController {
     }
 
     @GetMapping("/promotion-table")
-    public ResponseEntity<List<ProductDiscountTableServiceModel>> getPromotionalProductTable() {
-        List<ProductDiscountTableServiceModel> products = this.productService.getDiscountedProducts(LocalDateTime.now());
+    public ResponseEntity<List<ProductDiscountTableResponseModel>> getPromotionalProductTable() {
+        List<ProductDiscountTableResponseModel> products =
+                this.productService.getDiscountedProducts(LocalDateTime.now())
+                        .stream()
+                        .map(p -> this.modelMapper.map(p, ProductDiscountTableResponseModel.class))
+                        .collect(Collectors.toList());
 
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
