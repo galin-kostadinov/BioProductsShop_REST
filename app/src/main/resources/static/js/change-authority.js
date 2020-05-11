@@ -5,13 +5,12 @@ $(function () {
 function loadUsers() {
     $.ajax({
         type: 'GET',
-        url: URLS.users,
+        url: URLS.allUsers,
         data: 'json',
         success: function (users) {
             $.each(users, function (i, user) {
                 addChangeAuthorityButton(user);
             })
-            loader.hide();
         }
     })
 }

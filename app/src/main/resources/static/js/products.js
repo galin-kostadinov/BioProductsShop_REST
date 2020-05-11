@@ -1,7 +1,3 @@
-const URLS = {
-    products: '/api/product/products'
-};
-
 $(function () {
     loadAllProduct();
 });

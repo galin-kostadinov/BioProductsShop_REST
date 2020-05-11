@@ -1,7 +1,3 @@
-const URLS = {
-    users: '/api/user/all-users'
-};
-
 $(function () {
     loadAllUsers();
 });
@@ -9,7 +5,7 @@ $(function () {
 function loadAllUsers() {
     $.ajax({
         type: 'GET',
-        url: URLS.users,
+        url: URLS.allUsers,
         data: 'json',
         success: function (users) {
             $.each(users, function (i, user) {

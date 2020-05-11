@@ -1,7 +1,3 @@
-const URLS = {
-    products: '/api/product/product-table'
-};
-
 $(function () {
     loadAllProduct();
 });
@@ -9,7 +5,7 @@ $(function () {
 function loadAllProduct() {
     $.ajax({
         type: 'GET',
-        url: URLS.products,
+        url: URLS.productTable,
         data: 'json',
         success: function (products) {
             $.each(products, function (i, product) {

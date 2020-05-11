@@ -1,7 +1,3 @@
-const URLS = {
-    products: '/api/product/promotion-table'
-};
-
 $(function () {
     loadAllPromotions();
 });
@@ -9,7 +5,7 @@ $(function () {
 function loadAllPromotions() {
     $.ajax({
         type: 'GET',
-        url: URLS.products,
+        url: URLS.promotionTable,
         data: 'json',
         success: function (products) {
             $.each(products, function (i, product) {
