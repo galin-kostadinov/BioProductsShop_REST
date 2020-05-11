@@ -32,11 +32,7 @@ public class UserController extends BaseController {
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Profile")
-    public ModelAndView getProfile(HttpSession session, ModelAndView model) throws Exception {
-        String username = session.getAttribute("username").toString();
-        UserProfileServiceModel serviceModel = this.userService.getUserByUsername(username);
-        model.addObject("model", this.modelMapper.map(serviceModel, UserProfileViewModel.class));
-
+    public ModelAndView getProfile(ModelAndView model) {
         return super.view("user/profile", model);
     }
 
