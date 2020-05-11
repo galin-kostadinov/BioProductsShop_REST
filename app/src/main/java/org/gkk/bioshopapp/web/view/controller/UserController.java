@@ -68,12 +68,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ROOT')")
     @PageTitle("Users")
     public ModelAndView getAllUsers(ModelAndView model) {
-        List<UserProfileViewModel> users = this.userService.getAllUsers().stream()
-                .map(userService -> this.modelMapper.map(userService, UserProfileViewModel.class))
-                .collect(Collectors.toList());
-
-        model.addObject("users", users);
-
         return super.view("user/all-users", model);
     }
 

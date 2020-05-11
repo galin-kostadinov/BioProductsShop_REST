@@ -27,7 +27,7 @@ public class UserApiController {
     }
 
     @GetMapping(value = "/all-users")
-    public ResponseEntity<List<UserProfileViewModel>> getAllProducts() {
+    public ResponseEntity<List<UserProfileViewModel>> getAllUsers() {
         List<UserProfileViewModel> users = this.userService.getAllUsers().stream()
                 .map(userService -> this.modelMapper.map(userService, UserProfileViewModel.class))
                 .collect(Collectors.toList());
