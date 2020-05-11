@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"/>
+<link rel="stylesheet" href="/css/loader.css">
+
+<body>
+<th:block th:include="~{fragments/navbar}"/>
+<main>
+    <div class="w-100 mx-auto">
+        <span style="visibility: hidden">....</span>
+        <h2 class="text-center bold font-weight-bold text-dark">All orders:</h2>
+        <hr class="hr-2 bg-dark">
+        <div id="all-orders" class="row text-center w-75 mx-auto"></div>
+    </div>
+    <span style="visibility: hidden">....</span>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"/>
+<th:block th:include="~{fragments/loader}"/>
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+<script type="text/javascript" th:src="@{/js/orders.js}"></script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"/>
+<link rel="stylesheet" href="/css/loader.css">
+
+<body>
+<th:block th:include="~{fragments/navbar}"/>
+<main>
+    <div class="w-75 mx-auto">
+        <h1 class="text-center mt-5">All Bio Products</h1>
+        <hr class="hr-2 bg-dark">
+        <div class="row">
+            <div id="product-list" class="col col-md-12 text-center p-0"></div>
+        </div>
+    </div>
+
+</main>
+<th:block th:include="~{fragments/footer}"/>
+<th:block th:include="~{fragments/loader}"/>
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+<script type="text/javascript" th:src="@{/js/products.js}"></script>
+</html>
