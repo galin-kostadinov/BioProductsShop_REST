@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,7 +49,7 @@ public class ProductApiController {
     }
 
     @GetMapping("/promotion-table")
-    public ResponseEntity<List<ProductDiscountTableServiceModel>> getPromotionalProductTable(ModelAndView model) {
+    public ResponseEntity<List<ProductDiscountTableServiceModel>> getPromotionalProductTable() {
         List<ProductDiscountTableServiceModel> products = this.productService.getDiscountedProducts(LocalDateTime.now());
 
         return new ResponseEntity<>(products, HttpStatus.OK);
