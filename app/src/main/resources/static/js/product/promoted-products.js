@@ -35,7 +35,6 @@ function addTitleDOM() {
                 )
             )
         );
-
 }
 
 function addProductDOM({id, name, made, imgUrl, price, promotionalPrice}) {
