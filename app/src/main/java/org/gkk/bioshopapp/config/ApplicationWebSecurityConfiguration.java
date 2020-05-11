@@ -33,6 +33,7 @@ public class ApplicationWebSecurityConfiguration extends WebSecurityConfigurerAd
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/contacts").permitAll()
+                .antMatchers("/api/product/promotion-table").permitAll()
                 .antMatchers("/js/*", "/css/*", "/img/*", "/favicon.ico").permitAll()
                 .antMatchers("/register", "/login").anonymous()
                 .anyRequest().authenticated()
