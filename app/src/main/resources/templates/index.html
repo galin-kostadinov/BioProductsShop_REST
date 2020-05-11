@@ -5,6 +5,7 @@
         xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:include="~{fragments/head}"/>
+<link rel="stylesheet" href="/css/loader.css">
 
 <body>
 <th:block th:include="~{fragments/navbar}"/>
@@ -16,34 +17,15 @@
         <h3>If you want to look all or buy a product then you have to <a href="/login">Login</a>/<a href="/register">Register</a>
         </h3>
         <hr class="hr-2 bg-dark"/>
-        <th:block th:unless="${promotedProducts == null}">
-            <h2 class="text-center">Our weekly offers:</h2>
-            <hr class="hr-2 bg-dark"/>
-            <div class="row">
-                <div class="col col-md-12 text-center p-0">
-                    <th:block th:each="product : ${promotedProducts}">
-                        <output class="col col-md-3 col-sm-12 text-center pb-md-5 ml-md-0 mr-md-0" th:escape="false">
-                            <div>
-                                <h2 th:utext="${product.name}"></h2>
-                                <h4 th:utext="'Made: ' + ${product.made}"></h4>
-                            </div>
-                            <img class="mb-md-3 mt-md-3" th:src="${product.imgUrl}" width="300" height="300">
-
-                            <h6 class="mb-md-2 discount-price" th:utext="'Old Price: ' + ${product.price} + ' $'">
-                                ${product.priceNow}</h6>
-                            <h5 class="mb-md-2" th:utext="'Price: ' + ${product.promotionalPrice} + ' $'"></h5>
-
-                            <th:block>
-                                <a th:href="@{/product/details/{id}(id=${product.id})}"
-                                   class="btn btn-secondary glow-button font-weight-bold text-white">Details</a>
-                            </th:block>
-                        </output>
-                    </th:block>
-                </div>
-            </div>
-        </th:block>
+        <div id="index-promoted-products"></div>
     </div>
 </main>
 <th:block th:include="~{fragments/footer}"/>
+<th:block th:include="~{fragments/loader}"/>
 </body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/urls.js}"></script>
+<script type="text/javascript" th:src="@{/js/loader.js}"></script>
+<script type="text/javascript" th:src="@{/js/promoted-products.js}"></script>
 </html>
