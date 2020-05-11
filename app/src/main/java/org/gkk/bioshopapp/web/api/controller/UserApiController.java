@@ -3,7 +3,6 @@ package org.gkk.bioshopapp.web.api.controller;
 import org.gkk.bioshopapp.service.model.user.UserProfileServiceModel;
 import org.gkk.bioshopapp.service.service.UserService;
 import org.gkk.bioshopapp.web.api.model.UserProfileResponseModel;
-import org.gkk.bioshopapp.web.view.model.user.UserProfileViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
