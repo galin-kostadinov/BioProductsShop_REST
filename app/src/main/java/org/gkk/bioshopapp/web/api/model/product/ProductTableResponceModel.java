@@ -1,4 +1,4 @@
-package org.gkk.bioshopapp.web.api.model;
+package org.gkk.bioshopapp.web.api.model.product;
 
 import java.math.BigDecimal;
 
