@@ -17,7 +17,8 @@ function loadProduct() {
 
 function addProductDOM({name, description, imgUrl, price}, productId) {
     $('#edit-product')
-        .append($('<form/>', {action: '/product/edit/' + productId, method: 'POST'})
+        .append($('<form/>', {action: '/api/product/edit/' + productId, method: 'POST'})
+            .attr('id', 'edit-product-form')
             .addClass('mx-auto w-25 mb-5')
             .append($('<div/>')
                 .addClass('form-group')
