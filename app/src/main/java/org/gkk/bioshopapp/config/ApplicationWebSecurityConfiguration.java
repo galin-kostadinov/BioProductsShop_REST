@@ -34,7 +34,7 @@ public class ApplicationWebSecurityConfiguration extends WebSecurityConfigurerAd
                 .authorizeRequests()
                 .antMatchers("/", "/contacts").permitAll()
                 .antMatchers("/api/product/promotion-table").permitAll()
-                .antMatchers("/js/*", "/css/*", "/img/*", "/favicon.ico").permitAll()
+                .antMatchers("/js/*","/js/**", "/css/*", "/img/*", "/favicon.ico").permitAll()
                 .antMatchers("/register", "/login").anonymous()
                 .anyRequest().authenticated()
                 .and()
