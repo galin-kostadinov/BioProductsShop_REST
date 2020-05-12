@@ -1,13 +1,16 @@
 package org.gkk.bioshopapp.web.api.controller;
 
 import org.gkk.bioshopapp.service.service.ProductService;
+import org.gkk.bioshopapp.web.api.model.product.ProductDetailsResponseModel;
 import org.gkk.bioshopapp.web.api.model.product.ProductDiscountTableResponseModel;
+import org.gkk.bioshopapp.web.api.model.product.ProductEditResponseModel;
 import org.gkk.bioshopapp.web.api.model.product.ProductTableResponceModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,5 +60,21 @@ public class ProductApiController {
                         .collect(Collectors.toList());
 
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<ProductDetailsResponseModel> detailsProduct(@PathVariable String id) {
+        ProductDetailsResponseModel product =
+                this.modelMapper.map(this.productService.getProductDetailsModel(id), ProductDetailsResponseModel.class);
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<ProductEditResponseModel> editProduct(@PathVariable String id) {
+        ProductEditResponseModel product =
+                this.modelMapper.map(this.productService.getProductEditModelById(id), ProductEditResponseModel.class);
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 }
