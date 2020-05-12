@@ -12,7 +12,6 @@ import java.security.Principal;
 public class HomeController extends BaseController {
 
     @GetMapping("/")
-    @PreAuthorize("isAnonymous()")
     @PageTitle("Index")
     public ModelAndView index(ModelAndView model, Principal principal) {
 
