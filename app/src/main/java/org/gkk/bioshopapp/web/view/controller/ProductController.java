@@ -86,12 +86,7 @@ public class ProductController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Product Details")
     public ModelAndView detailsProduct(@PathVariable String id, ModelAndView model) {
-        ProductDetailsModel product =
-                this.modelMapper.map(this.productService.getProductDetailsModel(id), ProductDetailsModel.class);
-
-        model.addObject("product", product);
         model.addObject("productId", id);
-
         return super.view("product/details-product", model);
     }
 
@@ -99,9 +94,6 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("Edit Product")
     public ModelAndView editProduct(@PathVariable String id, ModelAndView model) {
-        ProductEditModel product = this.modelMapper.map(this.productService.getProductEditModelById(id), ProductEditModel.class);
-
-        model.addObject("product", product);
         model.addObject("productId", id);
 
         return super.view("product/edit-product", model);
@@ -173,10 +165,6 @@ public class ProductController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("Promotional Table")
     public ModelAndView getPromotionalProductTable(ModelAndView model) {
-        List<ProductDiscountTableServiceModel> products = this.productService.getDiscountedProducts(LocalDateTime.now());
-
-        model.addObject("products", products);
-
         return super.view("product/promotion-table", model);
     }
 
