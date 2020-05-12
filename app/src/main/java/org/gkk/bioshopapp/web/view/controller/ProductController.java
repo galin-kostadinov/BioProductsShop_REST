@@ -99,33 +99,12 @@ public class ProductController extends BaseController {
         return super.view("product/edit-product", model);
     }
 
-    @PostMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView editProductConfirm(@PathVariable String id, @ModelAttribute ProductEditModel model) {
-        this.productService.editProduct(id, this.modelMapper.map(model, ProductEditServiceModel.class));
-
-        return super.redirect("/product/details/" + id);
-    }
-
-
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("Delete Product")
     public ModelAndView deleteProduct(@PathVariable String id, ModelAndView model) {
-        ProductEditServiceModel product = this.productService.getProductEditModelById(id);
-
-        model.addObject("product", product);
         model.addObject("productId", id);
-
         return super.view("product/delete-product", model);
-    }
-
-    @PostMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView deleteProductConfirm(@PathVariable String id, @ModelAttribute ProductCreateModel model) {
-        this.productService.deleteProduct(id);
-
-        return super.redirect("/product/product-table");
     }
 
     @GetMapping("/promote/{id}")
