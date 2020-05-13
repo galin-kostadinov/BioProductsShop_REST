@@ -1,27 +1,22 @@
 package org.gkk.bioshopapp.web.view.controller;
 
 import org.gkk.bioshopapp.service.model.price.PriceDiscountServiceModel;
-import org.gkk.bioshopapp.service.model.product.*;
+import org.gkk.bioshopapp.service.model.product.ProductDetailsServiceModel;
 import org.gkk.bioshopapp.service.service.PriceDiscountService;
 import org.gkk.bioshopapp.service.service.PriceHistoryService;
 import org.gkk.bioshopapp.service.service.ProductService;
 import org.gkk.bioshopapp.web.annotation.PageTitle;
 import org.gkk.bioshopapp.web.view.model.product.PriceDiscountModel;
-import org.gkk.bioshopapp.web.view.model.product.ProductCreateModel;
 import org.gkk.bioshopapp.web.view.model.product.ProductDetailsModel;
-import org.gkk.bioshopapp.web.view.model.product.ProductEditModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Controller
 @RequestMapping("/product")
@@ -51,28 +46,8 @@ public class ProductController extends BaseController {
     @GetMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle("Create Product")
-    public ModelAndView getCreateForm() {
-        ModelAndView modelAndView = super.view("product/create-product");
-        modelAndView.addObject("model", new ProductCreateModel());
-        return modelAndView;
-    }
-
-    @PostMapping("/create")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    ModelAndView create(@ModelAttribute ProductCreateModel model, BindingResult bindingResult, HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            return super.view("product/create-product");
-        }
-
-        ProductCreateServiceModel serviceModel = this.modelMapper.map(model, ProductCreateServiceModel.class);
-
-        try {
-            String username = session.getAttribute("username").toString();
-            this.productService.create(serviceModel, username);
-            return super.redirect("/product");
-        } catch (Exception e) {
-            return super.redirect("/product/create-product");
-        }
+    public ModelAndView getCreateForm(ModelAndView model) {
+        return super.view("product/create-product", model);
     }
 
     @GetMapping("/product-table")
