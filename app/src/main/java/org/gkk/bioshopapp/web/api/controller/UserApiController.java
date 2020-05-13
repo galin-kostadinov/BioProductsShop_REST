@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ public class UserApiController {
     }
 
     @GetMapping(value = "/all-users")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
     public ResponseEntity<List<UserProfileResponseModel>> getAllUsers() {
         List<UserProfileResponseModel> users = this.userService.getAllUsers().stream()
                 .map(userService -> this.modelMapper.map(userService, UserProfileResponseModel.class))
@@ -38,6 +40,7 @@ public class UserApiController {
     }
 
     @GetMapping(value = "/profile")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserProfileResponseModel> getProfile(HttpSession session) throws Exception {
         String username = session.getAttribute("username").toString();
         UserProfileServiceModel serviceModel = this.userService.getUserByUsername(username);
