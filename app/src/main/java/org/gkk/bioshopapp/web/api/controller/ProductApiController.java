@@ -1,11 +1,15 @@
 package org.gkk.bioshopapp.web.api.controller;
 
+import org.gkk.bioshopapp.service.model.price.PriceDiscountServiceModel;
 import org.gkk.bioshopapp.service.model.product.ProductCreateServiceModel;
+import org.gkk.bioshopapp.service.model.product.ProductDetailsServiceModel;
 import org.gkk.bioshopapp.service.model.product.ProductEditServiceModel;
+import org.gkk.bioshopapp.service.service.PriceHistoryService;
 import org.gkk.bioshopapp.service.service.ProductService;
 import org.gkk.bioshopapp.web.api.model.product.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,19 +20,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/product")
 public class ProductApiController {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
     private final ProductService productService;
+    private final PriceHistoryService priceHistoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductApiController(ProductService productService, ModelMapper modelMapper) {
+    public ProductApiController(ProductService productService, PriceHistoryService priceHistoryService, ModelMapper modelMapper) {
         this.productService = productService;
+        this.priceHistoryService = priceHistoryService;
         this.modelMapper = modelMapper;
     }
 
@@ -55,7 +63,6 @@ public class ProductApiController {
     }
 
     @GetMapping("/promotion-table")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<ProductDiscountTableResponseModel>> getPromotionalProductTable() {
         List<ProductDiscountTableResponseModel> products =
                 this.productService.getDiscountedProducts(LocalDateTime.now())
@@ -127,5 +134,37 @@ public class ProductApiController {
         } catch (Exception e) {
             response.sendRedirect("/product/create-product");
         }
+    }
+
+    @GetMapping("/promote/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ProductDetailsResponseModel> getPromotedProduct(@PathVariable String id, HttpServletResponse response) throws IOException {
+        ProductDetailsServiceModel productServiceModel = this.productService.getProductDetailsModel(id);
+
+        if (productServiceModel.getPromotionalPrice() != null) {
+            response.sendRedirect("/product/product-table");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        ProductDetailsResponseModel product =
+                this.modelMapper.map(productServiceModel, ProductDetailsResponseModel.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("dataTimeNow", LocalDateTime.now().format(formatter));
+
+        return new ResponseEntity<>(product, headers, HttpStatus.OK);
+    }
+    
+    @PostMapping("/promote/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void promote(@PathVariable String id, PriceDiscountRequestModel model,  HttpServletResponse response) throws IOException {
+        PriceDiscountServiceModel priceDiscountServiceModel = this.modelMapper.map(model, PriceDiscountServiceModel.class);
+
+        priceDiscountServiceModel.setFromDate(LocalDateTime.parse(model.getFromDate(), formatter));
+        priceDiscountServiceModel.setToDate(LocalDateTime.parse(model.getToDate(), formatter));
+
+        this.priceHistoryService.setDiscount(id, priceDiscountServiceModel);
+
+        response.sendRedirect("/product/product-table");
     }
 }
