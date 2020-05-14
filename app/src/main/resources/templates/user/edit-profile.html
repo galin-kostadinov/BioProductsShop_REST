@@ -10,24 +10,14 @@
 <th:block th:include="~{fragments/navbar}"/>
 <main>
     <div class="mx-auto w-25">
-
         <span style="visibility: hidden">....</span>
         <h2 class="text-center font-weight-bold text-black">Edit Profile</h2>
         <hr class="hr-2 bg-dark">
-        <form class="form" th:action="@{/user/profile/edit}" th:method="post">
-            <div class="form-group">
-                <label for="username" class="mb-1">Username:</label>
-                <input type="text" th:value="${model.username}" class="form-control font-italic" name="username" id="username"
-                       readonly>
-            </div>
-            <div class="form-group">
-                <label for="email" class="mb-1">Email:</label>
-                <input type="email" th:value="${model.email}" class="form-control font-italic" name="email" id="email"
-                       readonly>
-            </div>
+        <form class="form" th:action="@{/api/user/profile/edit}" th:method="post">
+            <div id="edit-user-profile"></div>
             <div class="form-group">
                 <label for="oldPassword" class="mb-1">Old Password <span>*</span></label>
-                <input type="password" class="form-control" id="oldPassword" placeholder="Password..."
+                <input type="password" class="form-control" id="oldPassword" placeholder="Old Password..."
                        name="oldPassword"
                        required>
             </div>
@@ -36,6 +26,7 @@
                 <input type="password" class="form-control" id="newPassword" placeholder="New Password..."
                        name="newPassword"
                        pattern="^[A-Za-z\d-_.]{8,}$"
+                       minlength="8"
                        title="Password may contain letters, digits, special symbols('-', '_', '.', '$', '#', '@'). Password must be at least 8 characters long."
                        required>
             </div>
@@ -45,6 +36,7 @@
                        placeholder="Confirm New Password..."
                        name="confirmNewPassword"
                        pattern="^[A-Za-z\d-_.]{8,}$"
+                       minlength="8"
                        title="Password may contain letters, digits, special symbols('-', '_', '.', '$', '#', '@'). Password must be at least 8 characters long."
                        required>
             </div>
@@ -58,5 +50,7 @@
 </main>
 <th:block th:include="~{fragments/footer}"/>
 </body>
-
+<script th:src="@{/js/base/jquery.min.js}"></script>
+<script th:src="@{/js/base/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/user/edit-profile.js}"></script>
 </html>
