@@ -5,7 +5,7 @@ $(function () {
 function loadAllProduct() {
     $.ajax({
         type: 'GET',
-        url: URLS.productTable,
+        url: '/api/product/product-table',
         data: 'json',
         success: function (products) {
             $.each(products, function (i, product) {

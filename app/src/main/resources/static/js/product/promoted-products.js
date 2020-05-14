@@ -5,7 +5,7 @@ $(function () {
 function loadAllPromotedProducts() {
     $.ajax({
         type: 'GET',
-        url: URLS.promotionTable,
+        url: '/api/product/promotion-table',
         data: 'json',
         success: function (products) {
             addTitleDOM()

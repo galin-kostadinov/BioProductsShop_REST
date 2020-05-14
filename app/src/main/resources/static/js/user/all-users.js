@@ -5,7 +5,7 @@ $(function () {
 function loadAllUsers() {
     $.ajax({
         type: 'GET',
-        url: URLS.allUsers,
+        url: '/api/user/all-users',
         data: 'json',
         success: function (users) {
             $.each(users, function (i, user) {

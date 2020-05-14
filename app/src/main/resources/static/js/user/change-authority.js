@@ -5,7 +5,7 @@ $(function () {
 function loadUsers() {
     $.ajax({
         type: 'GET',
-        url: URLS.allUsers,
+        url: '/api/user/all-users',
         data: 'json',
         success: function (users) {
             $.each(users, function (i, user) {
@@ -21,7 +21,7 @@ function addChangeAuthorityButton({id, authorities, username}) {
     if (authorities.length === 2) {
         $(selectorIdUser)
             .append($('<block/>')
-                .append($('<form/>', {action: '/user/set-user/' + id, method: 'POST'})
+                .append($('<form/>', {action: '/api/user/set-user/' + id, method: 'POST'})
                     .append($('<button/>')
                         .addClass('btn btn-secondary glow-button font-weight-bold')
                         .attr('type', 'submit')
@@ -32,7 +32,7 @@ function addChangeAuthorityButton({id, authorities, username}) {
     } else if (authorities.length === 1) {
         $(selectorIdUser)
             .append($('<block/>')
-                .append($('<form/>', {action: '/user/set-admin/' + id, method: 'POST'})
+                .append($('<form/>', {action: '/api/user/set-admin/' + id, method: 'POST'})
                     .append($('<button/>')
                         .addClass('btn btn-secondary glow-button font-weight-bold')
                         .attr('type', 'submit')

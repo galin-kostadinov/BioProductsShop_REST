@@ -5,7 +5,7 @@ $(function () {
 function loadAllPromotions() {
     $.ajax({
         type: 'GET',
-        url: URLS.promotionTable,
+        url: '/api/product/promotion-table',
         data: 'json',
         success: function (products) {
             $.each(products, function (i, product) {
@@ -67,7 +67,7 @@ function addProductDOM({id, name, made, imgUrl, price, priceDiscount, promotiona
         .append($('<td/>')
             .addClass('col-md-12 text-left')
             .append($('<block/>')
-                .append($('<form/>', {action: '/product/remove-promotion/' + id, method: 'POST'})
+                .append($('<form/>', {action: '/api/product/remove-promotion/' + id, method: 'POST'})
                     .append($('<button/>')
                         .addClass('btn btn-danger glow-button font-weight-bold text-white')
                         .attr('type', 'submit')

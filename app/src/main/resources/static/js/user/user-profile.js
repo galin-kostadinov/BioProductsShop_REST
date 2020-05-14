@@ -5,7 +5,7 @@ $(function () {
 function loadUserProfile() {
     $.ajax({
         type: 'GET',
-        url: URLS.userProfile,
+        url: '/api/user/profile',
         data: 'json',
         success: function (user) {
             addUserProfileDOM(user);
