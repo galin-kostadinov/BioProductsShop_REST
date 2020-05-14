@@ -11,14 +11,14 @@
 <main>
     <h1 class="text-center">Register</h1>
     <hr class="hr-3"/>
-    <form class="mx-auto w-25" th:action="@{/register}" th:method="post" style="padding-bottom: 200px">
+    <form class="mx-auto w-25" th:action="@{/api/register}" th:method="post" style="padding-bottom: 200px">
         <div class="form-group">
             <div class="label-holder textCol d-flex justify-content-center">
                 <label for="username" class="h4 mb-2 text-blue">Username <span>*</span></label>
             </div>
             <input type="text" class="form-control" id="username" name="username" minlength="5"
                    placeholder="Username..."
-                   pattern="[A-Za-z\d-_.]{5,}"
+                   pattern="^[A-Za-z0-9-_.]{5,}$"
                    title="Username may contain letters, digits, special symbols('-', '_', '.'). Username must be min 5 characters long."
                    required/>
         </div>
@@ -35,7 +35,7 @@
                 <label for="password" class="h4 mb-2">Password <span>*</span></label>
             </div>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password..."
-                   pattern="^[A-Za-z\d-_.]{8,}$"
+                   pattern="^[A-Za-z0-9-_.$#]{8,}$"
                    minlength="8"
                    title="Password may contain letters, digits, special symbols('-', '_', '.', '$', '#', '@'). Password must be at least 8 characters long."
                    required/>
@@ -46,9 +46,9 @@
             </div>
             <input class="form-control" type="password" id="confirmPassword" name="confirmPassword"
                    placeholder="Confirm Password..."
-                   pattern="^[A-Za-z\d-_.]{8,}$"
+                   pattern="^[A-Za-z0-9-_.$#]{8,}$"
                    minlength="8"
-                   title="Password may contain letters, digits, special symbols('-', '_', '.', '$', '#', '@'). Password must be at least 8 characters long."
+                   title="Password may contain letters, digits, special symbols('-', '_', '.', '$', '#',). Password must be at least 8 characters long."
                    required/>
         </div>
         <div class="button-holder d-flex justify-content-center">
