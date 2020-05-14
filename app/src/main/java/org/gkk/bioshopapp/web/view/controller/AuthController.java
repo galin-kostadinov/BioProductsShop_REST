@@ -1,46 +1,20 @@
 package org.gkk.bioshopapp.web.view.controller;
 
-import org.gkk.bioshopapp.service.model.user.UserRegisterServiceModel;
-import org.gkk.bioshopapp.service.service.AuthService;
 import org.gkk.bioshopapp.web.annotation.PageTitle;
-import org.gkk.bioshopapp.web.view.model.user.UserRegisterModel;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AuthController extends BaseController {
-    private final AuthService authService;
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public AuthController(
-            AuthService authService, ModelMapper modelMapper) {
-        this.authService = authService;
-        this.modelMapper = modelMapper;
-    }
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
     @PageTitle("Register")
     public ModelAndView getRegisterForm() {
         return super.view("user/register");
-    }
-
-    @PostMapping("/register")
-    @PreAuthorize("isAnonymous()")
-    public ModelAndView register(@ModelAttribute UserRegisterModel model, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return super.view("user/register");
-        }
-
-        UserRegisterServiceModel serviceModel = this.modelMapper.map(model, UserRegisterServiceModel.class);
-        authService.register(serviceModel);
-        return super.redirect("/login");
     }
 
     @GetMapping("/login")
