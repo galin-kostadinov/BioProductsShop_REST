@@ -4,6 +4,7 @@ import org.gkk.bioshopapp.service.model.price.PriceDiscountServiceModel;
 import org.gkk.bioshopapp.service.model.product.ProductCreateServiceModel;
 import org.gkk.bioshopapp.service.model.product.ProductDetailsServiceModel;
 import org.gkk.bioshopapp.service.model.product.ProductEditServiceModel;
+import org.gkk.bioshopapp.service.service.PriceDiscountService;
 import org.gkk.bioshopapp.service.service.PriceHistoryService;
 import org.gkk.bioshopapp.service.service.ProductService;
 import org.gkk.bioshopapp.web.api.model.product.*;
@@ -31,12 +32,15 @@ public class ProductApiController {
 
     private final ProductService productService;
     private final PriceHistoryService priceHistoryService;
+    private final PriceDiscountService priceDiscountService;
+
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductApiController(ProductService productService, PriceHistoryService priceHistoryService, ModelMapper modelMapper) {
+    public ProductApiController(ProductService productService, PriceHistoryService priceHistoryService, PriceDiscountService priceDiscountService, ModelMapper modelMapper) {
         this.productService = productService;
         this.priceHistoryService = priceHistoryService;
+        this.priceDiscountService = priceDiscountService;
         this.modelMapper = modelMapper;
     }
 
@@ -166,5 +170,12 @@ public class ProductApiController {
         this.priceHistoryService.setDiscount(id, priceDiscountServiceModel);
 
         response.sendRedirect("/product/product-table");
+    }
+
+    @PostMapping("/remove-promotion/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void removePromotion(@PathVariable String id,  HttpServletResponse response) throws IOException {
+        this.priceDiscountService.removePromotion(id);
+        response.sendRedirect("/product/promotion-table");
     }
 }
