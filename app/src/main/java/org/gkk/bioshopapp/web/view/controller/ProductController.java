@@ -1,38 +1,16 @@
 package org.gkk.bioshopapp.web.view.controller;
 
-import org.gkk.bioshopapp.service.model.price.PriceDiscountServiceModel;
-import org.gkk.bioshopapp.service.service.PriceDiscountService;
-import org.gkk.bioshopapp.service.service.PriceHistoryService;
-import org.gkk.bioshopapp.service.service.ProductService;
 import org.gkk.bioshopapp.web.annotation.PageTitle;
-import org.gkk.bioshopapp.web.view.model.product.PriceDiscountModel;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController extends BaseController {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-
-    private final ProductService productService;
-    private final PriceHistoryService priceHistoryService;
-    private final PriceDiscountService priceDiscountService;
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public ProductController(ProductService productService, PriceHistoryService priceHistoryService, PriceDiscountService priceDiscountService, ModelMapper modelMapper) {
-        this.productService = productService;
-        this.priceHistoryService = priceHistoryService;
-        this.priceDiscountService = priceDiscountService;
-        this.modelMapper = modelMapper;
-    }
 
     @GetMapping({"/", ""})
     @PreAuthorize("isAuthenticated()")
@@ -92,13 +70,5 @@ public class ProductController extends BaseController {
     @PageTitle("Promotional Table")
     public ModelAndView getPromotionalProductTable(ModelAndView model) {
         return super.view("product/promotion-table", model);
-    }
-
-    @PostMapping("/remove-promotion/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView removePromotion(@PathVariable String id) {
-        this.priceDiscountService.removePromotion(id);
-
-        return super.redirect("/product/promotion-table");
     }
 }
