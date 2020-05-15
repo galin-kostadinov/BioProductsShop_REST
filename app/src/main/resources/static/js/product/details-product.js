@@ -75,7 +75,7 @@ function addProductDOM({id, name, made, description, imgUrl, price, promotionalP
 
     $('#product-details-ul')
         .append($('<li/>')
-            .append($('<form/>', {action: '/order/add-to-cart/' + id, method: 'POST'})
+            .append($('<form/>', {action: '/api/order/add-to-cart/' + id, method: 'POST'})
                 .append($('<div/>')
                     .addClass('col col-md-5 h5 p-0')
                     .append($('<label/>')
