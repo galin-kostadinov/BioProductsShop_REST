@@ -1,8 +1,8 @@
 $(function () {
-    loadAllProduct();
+    loadAllProducts();
 });
 
-function loadAllProduct() {
+function loadAllProducts() {
     $.ajax({
         type: 'GET',
         url: '/api/product/products',
