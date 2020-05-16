@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -81,6 +80,10 @@ public class OrderApiController {
     @PostMapping("/api/order/add-to-cart/{id}")
     @PreAuthorize("isAuthenticated()")
     public void addToCart(@PathVariable String id, Integer quantity, HttpSession session, HttpServletResponse response) throws IOException {
+        if (quantity < 1) {
+            throw new IllegalArgumentException("Quantity must be positive number bigger or equal to 1.");
+        }
+
         HashMap<String, OrderProductModel> cart = (HashMap<String, OrderProductModel>) session.getAttribute("cart");
 
         if (!cart.containsKey(id)) {
