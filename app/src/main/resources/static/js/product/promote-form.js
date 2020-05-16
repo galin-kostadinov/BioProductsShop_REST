@@ -2,6 +2,9 @@ $(function () {
     loadProduct();
 });
 
+const PRODUCT_NOT_FOUND = "Product not found!";
+const BAD_REQUEST = "Bad request!";
+
 function loadProduct() {
     const productId = $('#promote-product').attr('label');
 
@@ -12,6 +15,15 @@ function loadProduct() {
         success: function (product, status, xhr) {
             const dataTimeNow = xhr.getResponseHeader("dataTimeNow");
             addProductDOM(product, dataTimeNow);
+        },
+        statusCode: {
+            404: function () {
+                alert(PRODUCT_NOT_FOUND);
+            },
+
+            400: function () {
+                alert(BAD_REQUEST);
+            }
         }
     })
 }

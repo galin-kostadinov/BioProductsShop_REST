@@ -2,6 +2,8 @@ $(function () {
     loadProduct();
 });
 
+const PRODUCT_NOT_FOUND = "Product not found!";
+
 function loadProduct() {
     const productId = $('#edit-product').attr('label');
 
@@ -11,6 +13,9 @@ function loadProduct() {
         data: 'json',
         success: function (product) {
             addProductDOM(product, productId);
+        },
+        error: function (request, status, error) {
+            alert(PRODUCT_NOT_FOUND);
         }
     })
 }
