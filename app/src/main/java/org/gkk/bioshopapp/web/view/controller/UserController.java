@@ -25,6 +25,13 @@ public class UserController extends BaseController {
         return super.view("user/edit-profile");
     }
 
+    @GetMapping("profile/delete")
+    @PreAuthorize("isAuthenticated()")
+    @PageTitle("Edit Profile")
+    public ModelAndView getDeleteProfile() {
+        return super.view("user/delete-profile");
+    }
+
     @GetMapping("/all-users")
     @PreAuthorize("hasRole('ROLE_ROOT')")
     @PageTitle("Users")
