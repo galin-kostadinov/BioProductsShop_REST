@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,8 +45,7 @@ public class Order extends BaseEntity {
         this.status = status;
     }
 
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @Valid
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
