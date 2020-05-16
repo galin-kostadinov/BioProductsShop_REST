@@ -1,10 +1,9 @@
 package org.gkk.bioshopapp.error;
 
-import org.gkk.bioshopapp.constant.ErrorMessageConstant;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import static org.gkk.bioshopapp.constant.ErrorMessageConstant.*;
+import static org.gkk.bioshopapp.constant.ErrorMessageConstant.CATEGORY_NOT_FOUND;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = CATEGORY_NOT_FOUND)
 public class CategoryNotFoundException extends RuntimeException {
