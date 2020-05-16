@@ -1,7 +1,5 @@
 package org.gkk.bioshopapp.validation.impl;
 
-import org.gkk.bioshopapp.data.model.User;
-import org.gkk.bioshopapp.data.repository.UserRepository;
 import org.gkk.bioshopapp.service.model.user.UserEditProfileServiceModel;
 import org.gkk.bioshopapp.service.service.HashingService;
 import org.gkk.bioshopapp.validation.UserValidation;
