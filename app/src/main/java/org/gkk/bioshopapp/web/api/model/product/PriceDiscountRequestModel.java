@@ -1,6 +1,8 @@
 package org.gkk.bioshopapp.web.api.model.product;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class PriceDiscountRequestModel {
 
@@ -13,6 +15,8 @@ public class PriceDiscountRequestModel {
     public PriceDiscountRequestModel() {
     }
 
+    @NotBlank
+    @NotNull
     public Integer getDiscount() {
         return discount;
     }
@@ -21,6 +25,9 @@ public class PriceDiscountRequestModel {
         this.discount = discount;
     }
 
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}")
     public String getFromDate() {
         return fromDate;
     }
@@ -29,6 +36,9 @@ public class PriceDiscountRequestModel {
         this.fromDate = fromDate;
     }
 
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}")
     public String getToDate() {
         return toDate;
     }

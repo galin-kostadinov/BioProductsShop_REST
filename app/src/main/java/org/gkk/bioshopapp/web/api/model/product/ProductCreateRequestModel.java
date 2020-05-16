@@ -2,6 +2,7 @@ package org.gkk.bioshopapp.web.api.model.product;
 
 import org.gkk.bioshopapp.data.model.ProductType;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -21,6 +22,9 @@ public class ProductCreateRequestModel implements Serializable {
     public ProductCreateRequestModel() {
     }
 
+    @NotNull
+    @NotBlank
+    @Size(min = 3, message = "Name size have to be min 3 characters.")
     public String getName() {
         return name;
     }
@@ -29,6 +33,9 @@ public class ProductCreateRequestModel implements Serializable {
         this.name = name;
     }
 
+    @NotNull
+    @NotBlank
+    @Size(min = 2, message = "Made size have to be min 2 characters.")
     public String getMade() {
         return made;
     }
@@ -37,6 +44,7 @@ public class ProductCreateRequestModel implements Serializable {
         this.made = made;
     }
 
+    @NotNull
     public ProductType getType() {
         return type;
     }
@@ -45,6 +53,9 @@ public class ProductCreateRequestModel implements Serializable {
         this.type = type;
     }
 
+    @NotNull
+    @NotBlank
+    @Size(min = 10, message = "Description size have to be min 10 characters.")
     public String getDescription() {
         return description;
     }
@@ -53,6 +64,9 @@ public class ProductCreateRequestModel implements Serializable {
         this.description = description;
     }
 
+    @NotNull
+    @NotBlank
+    @Pattern(regexp = "(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)")
     public String getImgUrl() {
         return imgUrl;
     }
@@ -61,6 +75,8 @@ public class ProductCreateRequestModel implements Serializable {
         this.imgUrl = imgUrl;
     }
 
+    @NotNull
+    @DecimalMin(value = "0.1", message = "Must be greater than or equal to 0.1.")
     public BigDecimal getPrice() {
         return price;
     }
