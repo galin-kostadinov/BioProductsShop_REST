@@ -1,5 +1,6 @@
 package org.gkk.bioshopapp.web.api.controller;
 
+import org.gkk.bioshopapp.error.ProductNotFoundException;
 import org.gkk.bioshopapp.service.model.price.PriceDiscountServiceModel;
 import org.gkk.bioshopapp.service.model.product.ProductCreateServiceModel;
 import org.gkk.bioshopapp.service.model.product.ProductDetailsServiceModel;
@@ -14,11 +15,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -80,24 +81,28 @@ public class ProductApiController {
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProductDetailsResponseModel> detailsProduct(@PathVariable String id) {
-        ProductDetailsResponseModel product =
-                this.modelMapper.map(this.productService.getProductDetailsModel(id), ProductDetailsResponseModel.class);
-
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        try {
+            ProductDetailsResponseModel product = this.modelMapper.map(this.productService.getProductDetailsModel(id), ProductDetailsResponseModel.class);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (ProductNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductEditResponseModel> editProduct(@PathVariable String id) {
-        ProductEditResponseModel product =
-                this.modelMapper.map(this.productService.getProductEditModelById(id), ProductEditResponseModel.class);
-
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        try {
+            ProductEditResponseModel product = this.modelMapper.map(this.productService.getProductEditModelById(id), ProductEditResponseModel.class);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (ProductNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void editProductConfirm(@PathVariable String id, ProductEditRequestModel model, HttpServletResponse response) throws IOException {
+    public void editProductConfirm(@PathVariable String id, @Valid ProductEditRequestModel model, HttpServletResponse response) throws IOException {
         this.productService.editProduct(id, this.modelMapper.map(model, ProductEditServiceModel.class));
 
         response.sendRedirect("/product/details/" + id);
@@ -106,28 +111,24 @@ public class ProductApiController {
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductEditResponseModel> deleteProduct(@PathVariable String id) {
-        ProductEditResponseModel product =
-                this.modelMapper.map(this.productService.getProductEditModelById(id), ProductEditResponseModel.class);
-
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        try {
+            ProductEditResponseModel product = this.modelMapper.map(this.productService.getProductEditModelById(id), ProductEditResponseModel.class);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (ProductNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProductConfirm(@PathVariable String id, HttpServletResponse response) throws IOException {
         this.productService.deleteProduct(id);
-
         response.sendRedirect("/product/product-table");
     }
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void create(ProductCreateRequestModel model, BindingResult bindingResult, HttpSession session,
-                       HttpServletResponse response) throws IOException {
-        if (bindingResult.hasErrors()) {
-            response.sendRedirect("/product/create-product");
-        }
-
+    public void create(@Valid ProductCreateRequestModel model, HttpSession session, HttpServletResponse response) throws IOException {
         ProductCreateServiceModel serviceModel = this.modelMapper.map(model, ProductCreateServiceModel.class);
 
         try {
@@ -143,10 +144,15 @@ public class ProductApiController {
     @GetMapping("/promote/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ProductDetailsResponseModel> getPromotedProduct(@PathVariable String id, HttpServletResponse response) throws IOException {
-        ProductDetailsServiceModel productServiceModel = this.productService.getProductDetailsModel(id);
+        ProductDetailsServiceModel productServiceModel = null;
+
+        try {
+            productServiceModel = this.productService.getProductDetailsModel(id);
+        } catch (ProductNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         if (productServiceModel.getPromotionalPrice() != null) {
-            response.sendRedirect("/product/product-table");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -158,10 +164,10 @@ public class ProductApiController {
 
         return new ResponseEntity<>(product, headers, HttpStatus.OK);
     }
-    
+
     @PostMapping("/promote/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void promote(@PathVariable String id, PriceDiscountRequestModel model,  HttpServletResponse response) throws IOException {
+    public void promote(@PathVariable String id, @Valid PriceDiscountRequestModel model, HttpServletResponse response) throws IOException {
         PriceDiscountServiceModel priceDiscountServiceModel = this.modelMapper.map(model, PriceDiscountServiceModel.class);
 
         priceDiscountServiceModel.setFromDate(LocalDateTime.parse(model.getFromDate(), formatter));
@@ -174,7 +180,7 @@ public class ProductApiController {
 
     @PostMapping("/remove-promotion/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void removePromotion(@PathVariable String id,  HttpServletResponse response) throws IOException {
+    public void removePromotion(@PathVariable String id, HttpServletResponse response) throws IOException {
         this.priceDiscountService.removePromotion(id);
         response.sendRedirect("/product/promotion-table");
     }
