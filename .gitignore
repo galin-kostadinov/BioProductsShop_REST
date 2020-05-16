@@ -17,6 +17,8 @@ HELP.md
 *.iml
 *.ipr
 
+target/
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -30,3 +32,4 @@ HELP.md
 
 ### Sensitive Data ###
 app/src/main/resources/application.properties
+.properties
