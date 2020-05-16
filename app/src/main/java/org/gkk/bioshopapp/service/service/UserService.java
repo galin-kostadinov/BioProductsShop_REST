@@ -19,4 +19,6 @@ public interface UserService extends UserDetailsService {
     void makeAdmin(String id);
 
     void makeUser(String id);
+
+    void deleteUserProfile(String username);
 }
