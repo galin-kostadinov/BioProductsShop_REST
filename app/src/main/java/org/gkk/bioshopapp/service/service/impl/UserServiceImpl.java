@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.gkk.bioshopapp.constant.ErrorMessageConstant.*;
+import static org.gkk.bioshopapp.constant.ErrorMessageConstant.USERNAME_NOT_FOUND;
+import static org.gkk.bioshopapp.constant.ErrorMessageConstant.USERNAME_OR_PASSWORD_ARE_INCORRECT;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -88,6 +89,11 @@ public class UserServiceImpl implements UserService {
         user.getAuthorities().remove(this.roleService.findByAuthority("ROLE_ADMIN"));
 
         this.userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void deleteUserProfile(String username) {
+        this.userRepository.deleteUserByUsername(username);
     }
 
     @Override
