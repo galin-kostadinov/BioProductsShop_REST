@@ -37,7 +37,6 @@ public class AuthValidationImpl implements AuthValidation {
     }
 
     private boolean isEmailValid(String email) {
-        //todo
         return true;
     }
 }
