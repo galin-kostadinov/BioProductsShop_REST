@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"/>
+
+<body>
+<th:block th:include="~{fragments/navbar}"/>
+<main>
+    <div class="w-50 mx-auto">
+        <div class="text-center">
+            <h2>Validations fail:</h2>
+            <th:block th:each="error, iter : ${errors}">
+                <h4 class="text-left" th:text="${iter.index+1} + '. ' + ${error.value}"></h4>
+            </th:block>
+        </div>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"/>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"/>
+
+<body>
+<th:block th:include="~{fragments/navbar}"/>
+<main>
+    <div class="mx-auto w-25">
+        <span style="visibility: hidden">....</span>
+        <h2 class="text-center font-weight-bold text-black">Delete Profile</h2>
+        <hr class="hr-2 bg-dark">
+        <div id="edit-user-profile"></div>
+        <form class="form" th:action="@{/api/user/profile/delete}" th:method="post">
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-danger low-button font-weight-bold text-white">Delete</button>
+            </div>
+        </form>
+        <span style="visibility: hidden">....</span>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"/>
+</body>
+<script th:src="@{/js/base/jquery.min.js}"></script>
+<script th:src="@{/js/base/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/user/edit-profile.js}"></script>
+</html>
