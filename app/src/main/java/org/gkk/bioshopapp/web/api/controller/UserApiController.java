@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public class UserApiController {
 
     @PostMapping("/profile/edit")
     @PreAuthorize("isAuthenticated()")
-    public void editProfileConfirm(UserEditProfileRequestModel model, HttpServletResponse response) throws IOException {
+    public void editProfileConfirm(@Valid UserEditProfileRequestModel model, HttpServletResponse response) throws IOException {
         UserEditProfileServiceModel serviceModel = this.modelMapper.map(model, UserEditProfileServiceModel.class);
 
         try {
@@ -72,6 +73,14 @@ public class UserApiController {
         } catch (Exception e) {
             response.sendRedirect("/user/profile/edit");
         }
+    }
+
+    @PostMapping("/profile/delete")
+    @PreAuthorize("isAuthenticated()")
+    public void deleteProfileConfirm(HttpSession session, HttpServletResponse response) throws IOException {
+        String username = session.getAttribute("username").toString();
+        this.userService.deleteUserProfile(username);
+        response.sendRedirect("/logout");
     }
 
     @PostMapping("/set-admin/{id}")
