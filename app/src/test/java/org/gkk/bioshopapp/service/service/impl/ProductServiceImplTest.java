@@ -1,5 +1,6 @@
 package org.gkk.bioshopapp.service.service.impl;
 
+import org.gkk.bioshopapp.base.TestBase;
 import org.gkk.bioshopapp.data.model.*;
 import org.gkk.bioshopapp.data.repository.ProductRepository;
 import org.gkk.bioshopapp.error.ProductNotFoundException;
@@ -8,11 +9,11 @@ import org.gkk.bioshopapp.service.model.product.*;
 import org.gkk.bioshopapp.service.service.CategoryService;
 import org.gkk.bioshopapp.service.service.LogService;
 import org.gkk.bioshopapp.service.service.ProductService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,23 +24,19 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductServiceImplTest {
+class ProductServiceImplTest extends TestBase {
+
+    @MockBean
     ProductRepository productRepository;
+
+    @MockBean
     CategoryService categoryService;
+
+    @MockBean
     LogService logService;
-    ModelMapper modelMapper;
 
+    @Autowired
     ProductService productService;
-
-    @BeforeEach
-    public void setupTest() {
-        productRepository = Mockito.mock(ProductRepository.class);
-        categoryService = Mockito.mock(CategoryService.class);
-        logService = Mockito.mock(LogService.class);
-        modelMapper = new ModelMapper();
-
-        productService = new ProductServiceImpl(productRepository, categoryService, logService, modelMapper);
-    }
 
     @Test
     public void create_whenCategoryNotExist_shouldCreateProductWithNewCategoryAndLog() {

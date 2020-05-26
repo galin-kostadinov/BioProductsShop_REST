@@ -1,5 +1,6 @@
 package org.gkk.bioshopapp.service.service.impl;
 
+import org.gkk.bioshopapp.base.TestBase;
 import org.gkk.bioshopapp.data.model.Role;
 import org.gkk.bioshopapp.data.model.User;
 import org.gkk.bioshopapp.data.repository.UserRepository;
@@ -9,10 +10,11 @@ import org.gkk.bioshopapp.service.service.HashingService;
 import org.gkk.bioshopapp.service.service.RoleService;
 import org.gkk.bioshopapp.service.service.UserService;
 import org.gkk.bioshopapp.validation.UserValidation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
@@ -21,25 +23,23 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserServiceImplTest {
+class UserServiceImplTest extends TestBase {
+
+    @MockBean
     UserRepository userRepository;
+
+    @MockBean
     UserValidation userValidation;
+
+    @MockBean
     RoleService roleService;
+
+    @MockBean
     HashingService hashingService;
-    ModelMapper modelMapper;
 
+    @Autowired
+    @Qualifier("userServiceImpl")
     UserService userService;
-
-    @BeforeEach
-    public void setupTest() {
-        userRepository = Mockito.mock(UserRepository.class);
-        userValidation = Mockito.mock(UserValidation.class);
-        roleService = Mockito.mock(RoleService.class);
-        hashingService = Mockito.mock(HashingService.class);
-        modelMapper = new ModelMapper();
-
-        userService = new UserServiceImpl(userRepository, userValidation, roleService, hashingService, modelMapper);
-    }
 
     @Test
     public void getUserByUsername_whenUserExist_shouldReturnUser() throws Exception {
@@ -52,12 +52,10 @@ class UserServiceImplTest {
 
         Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
-        UserProfileServiceModel expectedUser = this.modelMapper.map(user, UserProfileServiceModel.class);
-
         UserProfileServiceModel resultUser = userService.getUserByUsername(user.getUsername());
 
-        assertEquals(expectedUser.getUsername(), resultUser.getUsername());
-        assertEquals(expectedUser.getEmail(), resultUser.getEmail());
+        assertEquals(user.getUsername(), resultUser.getUsername());
+        assertEquals(user.getEmail(), resultUser.getEmail());
     }
 
     @Test
@@ -127,7 +125,7 @@ class UserServiceImplTest {
         user1.setUsername(username1);
 
         User user2 = new User();
-        user1.setUsername(username2);
+        user2.setUsername(username2);
 
         List<User> users = new ArrayList<>();
 
